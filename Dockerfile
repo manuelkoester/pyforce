@@ -20,8 +20,8 @@ FROM python:$PYTHON_VERSION
 # Add perforce repository to our APT config
 RUN apt-get update && \
   apt-get install -y wget gnupg2 && \
-  wget -qO - https://package.perforce.com/perforce.pubkey | apt-key add - && \
-  echo "deb http://package.perforce.com/apt/ubuntu focal release" > /etc/apt/sources.list.d/perforce.list && \
+  wget -qO /usr/share/keyrings/perforce-archive-keyring.gpg https://package.perforce.com/perforce.pubkey && \
+  echo "deb [signed-by=/usr/share/keyrings/perforce-archive-keyring.gpg] http://package.perforce.com/apt/ubuntu focal release" > /etc/apt/sources.list.d/perforce.list && \
   apt-get update
 
 # Install helix-p4d, which installs p4d, p4, p4dctl, and a configuration script.
