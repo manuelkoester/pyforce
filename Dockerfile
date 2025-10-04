@@ -19,10 +19,10 @@ FROM python:$PYTHON_VERSION
 # Add the perforce public key to our keyring
 # Add perforce repository to our APT config
 RUN apt-get update && \
-  apt-get install -y wget gnupg2 && \
-  wget -qO /usr/share/keyrings/perforce-archive-keyring.gpg https://package.perforce.com/perforce.pubkey && \
-  echo "deb [signed-by=/usr/share/keyrings/perforce-archive-keyring.gpg] http://package.perforce.com/apt/ubuntu focal release" > /etc/apt/sources.list.d/perforce.list && \
-  apt-get update
+    apt-get install -y wget gnupg2 && \
+    wget -qO - https://package.perforce.com/perforce.pubkey | gpg --dearmor > /usr/share/keyrings/perforce-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/perforce-archive-keyring.gpg] http://package.perforce.com/apt/ubuntu focal release" > /etc/apt/sources.list.d/perforce.list && \
+    apt-get update
 
 # Install helix-p4d, which installs p4d, p4, p4dctl, and a configuration script.
 RUN apt-get update && apt-get install -y helix-p4d
